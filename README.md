@@ -17,7 +17,7 @@ pip install shmarray
 # Usage
 
 `test.py`
-```
+```python
 from multiprocessing import Process
 import time
 
@@ -67,7 +67,7 @@ $ python3 test.py
 ...
 ```
 
-# Postscript
+# 
 The code in `shmarray.py` is mostly the same as the original, I've only done two things:
 1. fix a bug that did not pass `dtype` argument to downstream calls
 2. reformat the code using [black](https://github.com/psf/black)
