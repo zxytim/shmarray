@@ -110,7 +110,7 @@ def create(shape, dtype="d"):
         dt = "b"
         N *= dtype.itemsize
 
-    a = sharedctypes.RawArray(dt, N)
+    a = sharedctypes.RawArray(dt, int(N))
 
     sa = shmarray(a, shape, dtype)
 
