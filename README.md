@@ -1,4 +1,11 @@
 # shmarray
+
+**NOTE**: If you are using Python 3.8, please turn to 
+[multiprocessing.shared_memory](https://docs.python.org/3.8/library/multiprocessing.shared_memory.html#module-multiprocessing.shared_memory)
+instead.
+
+-----
+
 shmarray is a shared numpy-array implementation utilizing
 multiprocessing.sharedctypes.  It is a quite useful small library created of
 David Baddeley. I found it at
@@ -67,7 +74,8 @@ $ python3 test.py
 ...
 ```
 
-# 
-The code in `shmarray.py` is mostly the same as the original, I've only done two things:
+# Under the hood
+The code in `shmarray.py` is mostly the same as the original, I've only done a few things:
 1. fix a bug that did not pass `dtype` argument to downstream calls
-2. reformat the code using [black](https://github.com/psf/black)
+2. fix python version compatibility bugs
+3. reformat the code using [black](https://github.com/psf/black)
