@@ -19,7 +19,7 @@ setuptools.setup(
     url="https://github.com/zxytim/shmarray",
     packages=setuptools.find_packages(),
     install_requires=requirements,
-    python_requires='>=3.5',
+    python_requires=">=3.5",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: BSD License",

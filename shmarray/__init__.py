@@ -38,7 +38,7 @@ from multiprocessing import sharedctypes
 from numpy import ctypeslib, asarray
 
 
-class shmarray(numpy.ndarray):
+class shmarray(numpy.ndarray):  # noqa: N801
     """subclass of ndarray with overridden pickling functions which record dtype, shape
     etc... but defer pickling of the underlying data to the original data source.
 
@@ -48,12 +48,17 @@ class shmarray(numpy.ndarray):
 
     TODO - add argument checking to ensure that the user is passing reasonable values."""
 
-    def __new__(
-        cls, ctypesArray, shape, dtype=float, strides=None, offset=0, order=None
-    ):
+    def __new__(  # noqa: N803
+        cls,
+        ctypesArray,  # noqa: N803
+        shape,
+        dtype=float,
+        strides=None,
+        offset=0,
+        order=None,
+    ):  # noqa: N803
 
-        ctypesArray = ctypeslib.as_array(ctypesArray)
-
+        ctypesArray = ctypeslib.as_array(ctypesArray)  # noqa: N806
 
         obj = numpy.ndarray.__new__(
             cls, shape, dtype, ctypesArray, offset, strides, order
@@ -93,7 +98,7 @@ def create(shape, dtype="d"):
     shape = numpy.atleast_1d(shape).astype("i")
 
     # we're going to use a flat ctypes array
-    N = int(numpy.prod(shape))
+    size = int(numpy.prod(shape))
 
     dtype = numpy.dtype(dtype)
 
@@ -103,9 +108,9 @@ def create(shape, dtype="d"):
 
     if dt not in sharedctypes.typecode_to_type.keys():
         dt = "b"
-        N *= dtype.itemsize
+        size *= dtype.itemsize
 
-    a = sharedctypes.RawArray(dt, N)
+    a = sharedctypes.RawArray(dt, size)
 
     sa = shmarray(a, shape, dtype)
 

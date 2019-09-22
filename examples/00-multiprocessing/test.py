@@ -1,7 +1,8 @@
-from multiprocessing import Process
 import time
+from multiprocessing import Process
 
 import shmarray
+
 
 def worker(data):
     while True:
@@ -14,12 +15,10 @@ def monitor(data):
         print(data)
         time.sleep(0.5)
 
+
 data = shmarray.zeros(10)
 
-procs = [
-    Process(target=worker, args=(data, )),
-    Process(target=monitor, args=(data, )),
-]
+procs = [Process(target=worker, args=(data,)), Process(target=monitor, args=(data,))]
 
 
 for p in procs:
