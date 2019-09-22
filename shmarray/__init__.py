@@ -52,13 +52,8 @@ class shmarray(numpy.ndarray):
         cls, ctypesArray, shape, dtype=float, strides=None, offset=0, order=None
     ):
 
-        # some magic (copied from numpy.ctypeslib) to make sure the ctypes array
-        # has the array interface
-        tp = type(ctypesArray)
-        try:
-            tp.__array_interface__
-        except AttributeError:
-            ctypeslib.prep_array(tp)
+        ctypesArray = ctypeslib.as_array(ctypesArray)
+
 
         obj = numpy.ndarray.__new__(
             cls, shape, dtype, ctypesArray, offset, strides, order
@@ -88,7 +83,7 @@ class shmarray(numpy.ndarray):
         )  # , self.offset, self.order)
 
     def __reduce__(self):
-        return __reduce_ex__(self, 0)
+        return self.__reduce_ex__(0)
 
 
 def create(shape, dtype="d"):
@@ -98,7 +93,7 @@ def create(shape, dtype="d"):
     shape = numpy.atleast_1d(shape).astype("i")
 
     # we're going to use a flat ctypes array
-    N = numpy.prod(shape)
+    N = int(numpy.prod(shape))
 
     dtype = numpy.dtype(dtype)
 
@@ -106,11 +101,11 @@ def create(shape, dtype="d"):
     # otherwise create a suitably sized byte array
     dt = dtype.char
 
-    if not dt in sharedctypes.typecode_to_type.keys():
+    if dt not in sharedctypes.typecode_to_type.keys():
         dt = "b"
         N *= dtype.itemsize
 
-    a = sharedctypes.RawArray(dt, int(N))
+    a = sharedctypes.RawArray(dt, N)
 
     sa = shmarray(a, shape, dtype)
 
